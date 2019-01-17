@@ -1,0 +1,9 @@
+val df = spark.read.parquet("/tmp/data/employees_parquet_3200/")
+df.write.json("/user/usernameXY/solution6")
+
+CREATE TABLE default.employeesXY_parquet_3200 (
+    
+)
+STORED AS TEXTFILE
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+LOCATION '/user/usernameXY/solution6'

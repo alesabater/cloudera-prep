@@ -1,0 +1,20 @@
+# https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html
+
+# Connect to a remote MySQL database and import the employee table into HDFS and Hive
+# Hostname: mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com
+# Database: employees
+# Table name: employees
+# Username: username
+# Password: password
+
+CREATE DATABASE db_employeesXY;
+
+sqoop import-all-tables
+--connect   
+--hive-import
+--hive-database db_employeesXY
+--username  --password 
+--warehouse-dir 
+--as-textfile
+--null-non-string '\\N' 
+-m 1

@@ -1,0 +1,62 @@
+# https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html
+
+# Connect to a remote MySQL database and import the employee table into HDFS and Hive
+# Hostname: mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com
+# Database: employees
+# Table name: employees
+# Username: username
+# Password: password
+
+sqoop import 
+--connect jdbc:mysql://mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com/employees  
+--username username --password password
+--table employees 
+--target-dir /tmp/employeesXY
+
+sqoop import 
+--connect jdbc:mysql://mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com/employees  
+--username username --password password
+--table employees 
+--target-dir /tmp/employeesXY 
+
+
+sqoop import 
+--connect jdbc:mysql://mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com/employees  
+--username username --password password
+--table employees 
+--target-dir /user/usernameXY/employeesXY 
+--as-textfile
+--fields-terminated-by '##' 
+--null-non-string '\\N' 
+
+sqoop import 
+--connect jdbc:mysql://mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com/employees  
+--username username --password password
+--query 'SELECT * FROM employees WHERE $CONDITIONS' 
+--split-by emp_no
+--target-dir /tmp/employeesXY_query 
+--as-textfile
+--null-non-string '\\N' 
+# Conditions provide parallelism. You must use split-by too.
+
+sqoop import 
+--connect jdbc:mysql://mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com/employees  
+--hive-import
+--hive-table employeesXY_hive
+--username username --password password
+--query 'SELECT * FROM employees WHERE $CONDITIONS' 
+--split-by emp_no
+--target-dir /tmp/employees_hivetext 
+--as-textfile
+--null-non-string '\\N' 
+
+CREATE DATABASE sample_employeeXY
+sqoop import-all-tables
+--connect jdbc:mysql://mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com/employees  
+--hive-import
+--hive-database sample_employee
+--username username --password password
+--warehouse-dir /user/hive/warehouse
+--as-textfile
+--null-non-string '\\N' 
+-m 1
