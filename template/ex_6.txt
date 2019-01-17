@@ -1,0 +1,36 @@
+val empDf = spark.sql("")
+val salDf = spark.sql("").filter($"to_date"==="").cache
+
+val empHighDf = (empDf.join(salDf, )
+    .select()
+    .filter()
+    .orderBy())
+
+empHighDf.count
+# Count should equal 6971
+
+spark.conf.set("spark.io.compression.codec","org.apache.spark.io.LZ4CompressionCodec")
+empHighDf.repartition().write.mode("").parquet("")
+
+---------------------------------------- HIVE ---------------------------------------------------------
+
+SET hivevar:DATABASE=;
+SET hivevar:EMP=;
+SET hivevar:SAL=;
+SET hivevar:KEY=;
+SET hivevar:TABLE=;
+SET hivevar:OUTPUT_LOCATION=;
+
+set hive.auto.convert.join=true;
+
+DROP TABLE ${DATABASE}.${TABLE};
+CREATE TABLE 
+STORED AS 
+LOCATION ''
+AS
+SELECT 
+FROM ${DATABASE}.${EMP} e 
+JOIN 
+ON ;
+
+SELECT COUNT(*) FROM ${DATABASE}.${TABLE};

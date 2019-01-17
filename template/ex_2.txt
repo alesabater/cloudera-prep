@@ -1,0 +1,19 @@
+# https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html
+
+# Connect to a remote MySQL database and import the employee table into HDFS and Hive
+# Hostname: mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com
+# Database: chargepoint_usage
+# Table name: ev_usage
+# Username: username
+# Password: password
+
+hdfs dfs -mkdir /tmp/data
+
+sqoop export 
+    --connect 
+    --username  
+    --password 
+    --table
+    --export-dir 
+    --fields-terminated-by ''
+

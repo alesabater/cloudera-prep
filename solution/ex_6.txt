@@ -1,0 +1,38 @@
+val empDf = spark.sql("SELECT * FROM db_employeesxy.employees")
+val salDf = spark.sql("SELECT * FROM db_employeesxy.salaries").filter($"to_date"==="9999-01-01").cache
+
+val empHighDf = (empDf.join(salDf, empDf("emp_no")===salDf("emp_no"))
+.select($"db_employeesxy.employees.emp_no".as("emp"),
+        $"first_name",
+        $"last_name",
+        $"salary")
+.filter($"salary">=80000)
+.orderBy($"salary"))
+
+empHighDf.count
+res9: Long = 6971
+
+empHighDf.repartition(1).write.mode("overwrite").parquet("/user/username/solution5")
+spark.conf.set("spark.io.compression.codec","org.apache.spark.io.LZ4CompressionCodec")
+
+
+SET hivevar:DATABASE=db_employeesxy;
+SET hivevar:EMP=employees;
+SET hivevar:SAL=salaries;
+SET hivevar:KEY=emp_no;
+SET hivevar:TABLE=higher_salary;
+SET hivevar:OUTPUT_LOCATION=/user/username/solution5_01;
+
+set hive.auto.convert.join=true;
+
+DROP TABLE ${DATABASE}.${TABLE};
+CREATE TABLE ${DATABASE}.${TABLE} 
+STORED AS parquet
+LOCATION '${OUTPUT_LOCATION}'
+AS
+SELECT e.${KEY}, e.first_name, e.last_name, s.salary 
+FROM ${DATABASE}.${EMP} e JOIN (
+SELECT * FROM ${DATABASE}.${SAL} WHERE to_date = "9999-01-01" AND salary > 80000) s
+ON e.${KEY} = s.${KEY};
+
+SELECT COUNT(*) FROM ${DATABASE}.${TABLE};
