@@ -1,18 +1,11 @@
 # https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html
 
 # Connect to a remote MySQL database and import the employee table into HDFS and Hive
-# Hostname: mm19k7ay09qeu5k.codpf0ubutke.eu-west-1.rds.amazonaws.com
+# Hostname: clouderaprep.codpf0ubutke.eu-west-1.rds.amazonaws.com
 # Database: employees
 # Table name: employees
 # Username: username
 # Password: password
-
-# Simple import, no delimiter speceified and no file type
-sqoop import 
---connect jdbc:mysql://<hostname>/<database>  
---username --password 
---table  
---target-dir 
 
 # Import as text file 
 # Import using '##' as delimiter
@@ -23,6 +16,15 @@ sqoop import
 --target-dir
 --fiel...
 --as...
+
+---------------------------------------- OTHER EXAMPLES -------------------------------------------
+
+# Simple import, no delimiter speceified and no file type
+sqoop import 
+--connect jdbc:mysql://<hostname>/<database>  
+--username --password 
+--table  
+--target-dir 
 
 # Import as textfile using query specific conditions
 --connect  

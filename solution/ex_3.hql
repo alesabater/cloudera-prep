@@ -2,8 +2,9 @@
 -- https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL
 SET hivevar:DATABASE=default;
 SET hivevar:TABLE=employeesXY;
-SET hivevar:TABLE_LOCATION=/user/username/employeesXY;
+SET hivevar:TABLE_LOCATION=/user/usernamexy/employeesXY;
 
+DROP TABLE IF EXISTS ${DATABASE}.${TABLE};
 CREATE EXTERNAL TABLE IF NOT EXISTS ${DATABASE}.${TABLE} (
     emp_no int,
     birth_date date, -- Check format is YYYY-MM-DD
